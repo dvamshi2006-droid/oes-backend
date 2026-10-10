@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: oes-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: oes-postgres
+          property: connectionString
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://oes-frontend-one.vercel.app,http://localhost:5173
+      - key: JWT_SECRET
+        generateValue: true
+
+databases:
+  - name: oes-postgres
+    databaseName: online_exam
+    user: postgres
+    plan: free
+    region: oregon
